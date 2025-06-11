@@ -1,12 +1,22 @@
+import { useEffect } from 'react';
 import {StyleSheet, Text, View} from 'react-native';
+import { getPopularMovies } from '../utils/service/TMBDService';
 
-const Home = () => {
+function Home() {
+
+  useEffect(() => {
+    getPopularMovies()
+      .then((movies) => {
+        console.log('Popular Movies:', movies);
+      });
+  }, []);
+
   return (
     <View style={styles.container}>
       <Text>Home Component</Text>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
     container: {
