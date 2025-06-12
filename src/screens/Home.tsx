@@ -1,19 +1,12 @@
-import { useEffect } from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import { getPopularMovies } from '../utils/service/TMBDService';
+import { Slider } from './Slider';
 
 function Home() {
-
-  useEffect(() => {
-    getPopularMovies()
-      .then((movies) => {
-        console.log('Popular Movies:', movies);
-      });
-  }, []);
 
   return (
     <View style={styles.container}>
       <Text>Home Component</Text>
+      <Slider/>
     </View>
   );
 }
