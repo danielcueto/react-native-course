@@ -1,100 +1,148 @@
-import {Button, StyleSheet, Text, View, Dimensions} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Dimensions,
+  TouchableOpacity,
+  Image,
+} from 'react-native';
 import {getPopularMovies} from '../utils/service/TMBDService';
-import { useEffect, useState } from 'react';
-import Carousel from 'react-native-reanimated-carousel';
+import {useEffect, useRef, useState} from 'react';
+import Carousel, {
+  Pagination,
+  ICarouselInstance,
+} from 'react-native-reanimated-carousel';
+import {IMAGE_BASE_URL} from '@env';
+import {useSharedValue} from 'react-native-reanimated';
+import LinearGradient from 'react-native-linear-gradient';
 
 const {width} = Dimensions.get('window');
 
 export function Slider() {
   const [movies, setMovies] = useState([]);
-
+  const progress = useSharedValue<number>(0);
+  const ref = useRef<ICarouselInstance>(null);
+  const onPressPagination = (index: number) => {
+    ref.current?.scrollTo({
+      count: index - progress.value,
+      animated: true,
+    });
+  };
   useEffect(() => {
     getPopularMovies().then(moviesData => {
-      console.log('Popular Movies:', moviesData);
-      setMovies(moviesData.slice(0, 5)); // Solo mostrar las primeras 5 películas
+      setMovies(moviesData.slice(0, 5));
     });
   }, []);
 
-  const renderItem = ({item, index}: {item: any; index: number}) => {
+  const renderItem = ({item}: {item: any; index: number}) => {
     return (
       <View style={styles.carouselItem}>
-        <Text style={styles.movieTitle}>{item.title || `Movie ${index + 1}`}</Text>
-        <Text style={styles.movieOverview} numberOfLines={3}>
-          {item.overview || 'No description available'}
-        </Text>
-        <Text style={styles.rating}>
-          ⭐ {item.vote_average ? item.vote_average.toFixed(1) : 'N/A'}
-        </Text>
+        <Image
+          style={styles.image}
+          source={{
+            uri: `${IMAGE_BASE_URL}${item.poster_path}`,
+          }}
+        />
+        <LinearGradient
+          colors={['transparent', 'rgba(0, 0, 0, 0.8)']}
+          style={styles.gradient}
+        />
       </View>
     );
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Text>My list</Text>
-        <Text>Discover</Text>
-      </View>
-      <View style={styles.mainContainer}>
+    <View>
+      <View style={styles.carouselContainer}>
         {movies.length > 0 ? (
-          <Carousel
-            width={width * 0.8}
-            height={160}
-            data={movies}
-            renderItem={renderItem}
-            loop={true}
-            autoPlay={true}
-            autoPlayInterval={3000}
-            scrollAnimationDuration={1000}
-          />
+          <>
+            <Carousel
+              ref={ref}
+              width={width}
+              height={width * 1.07}
+              data={movies}
+              renderItem={renderItem}
+              loop={true}
+              autoPlay={true}
+              autoPlayInterval={3000}
+              scrollAnimationDuration={1000}
+              onProgressChange={(_, absoluteProgress) => {
+                progress.value = absoluteProgress;
+              }}
+            />
+            <View style={styles.header}>
+              <Text style={styles.text}>My list</Text>
+              <Text style={styles.text}>Discover</Text>
+            </View>
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity style={styles.button1}>
+                <Text style={styles.text}>+ Wishlist</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.button2}>
+                <Text style={[styles.text, {color: '#333'}]}>Details</Text>
+              </TouchableOpacity>
+            </View>
+            <Pagination.Basic
+              progress={progress}
+              data={movies}
+              dotStyle={styles.dotStyle}
+              activeDotStyle={{backgroundColor: '#f2c94c'}}
+              containerStyle={styles.paginationContainer}
+              onPress={onPressPagination}
+            />
+          </>
         ) : (
-          <Text style={styles.text}>Loading movies...</Text>
+          <Text style={[styles.text]}>Loading movies...</Text>
         )}
-      </View>
-      <View style={styles.button}>
-        <Button color="green" title="WhishList" />
-        <Button color="green" title="Details" />
       </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    width: '100%',
-    marginVertical: 20,
-    paddingVertical: 40,
-    color: 'white',
+  carouselContainer: {
+    alignItems: 'center',
+    marginBottom: 20,
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    gap: 20,
+    gap: 36,
+    marginBottom: 24,
   },
-  mainContainer: {
-    height: 200,
-    justifyContent: 'center',
-    backgroundColor: '#f0f0f0',
-    alignItems: 'center',
-    borderColor: 'black',
-    borderWidth: 1,
-    marginVertical: 20,
-  },
-  button: {
+  buttonContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginBottom: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 24,
+    gap: 16,
+  },
+  button1: {
+    paddingVertical: 14,
+    paddingHorizontal: 32,
+    backgroundColor: '#333',
+    borderRadius: 8,
+    width: 155.5,
+    height: 48,
+  },
+  button2: {
+    paddingVertical: 14,
+    paddingHorizontal: 32,
+    backgroundColor: '#f2c94c',
+    borderRadius: 8,
+    width: 155.5,
+    height: 48,
   },
   text: {
-    fontSize: 18,
-    color: 'black',
+    fontSize: 16,
+    textAlign: 'center',
+    color: '#fff',
+    fontWeight: '500',
+    fontFamily: 'Gilroy-Medium',
   },
   carouselItem: {
-    backgroundColor: '#fff',
-    borderRadius: 8,
-    padding: 15,
-    marginHorizontal: 5,
+    position: 'relative',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -116,9 +164,33 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     lineHeight: 16,
   },
-  rating: {
-    fontSize: 14,
-    color: '#ff6b35',
-    fontWeight: '600',
+
+  image: {
+    width: width,
+    height: width * 1.07,
+    borderRadius: 8,
+    marginBottom: 10,
+  },
+  gradient: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: '50%',
+    borderBottomLeftRadius: 8,
+    borderBottomRightRadius: 8,
+  },
+  dotStyle: {
+    backgroundColor: '#fff',
+    borderRadius: 6,
+    width: 6,
+    height: 6,
+  },
+  paginationContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 10,
+    gap: 8,
   },
 });
