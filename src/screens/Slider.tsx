@@ -1,6 +1,34 @@
-import {Button, StyleSheet, Text, View} from 'react-native';
+import {Button, StyleSheet, Text, View, Dimensions} from 'react-native';
+import {getPopularMovies} from '../utils/service/TMBDService';
+import { useEffect, useState } from 'react';
+import Carousel from 'react-native-reanimated-carousel';
+
+const {width} = Dimensions.get('window');
 
 export function Slider() {
+  const [movies, setMovies] = useState([]);
+
+  useEffect(() => {
+    getPopularMovies().then(moviesData => {
+      console.log('Popular Movies:', moviesData);
+      setMovies(moviesData.slice(0, 5)); // Solo mostrar las primeras 5 películas
+    });
+  }, []);
+
+  const renderItem = ({item, index}: {item: any; index: number}) => {
+    return (
+      <View style={styles.carouselItem}>
+        <Text style={styles.movieTitle}>{item.title || `Movie ${index + 1}`}</Text>
+        <Text style={styles.movieOverview} numberOfLines={3}>
+          {item.overview || 'No description available'}
+        </Text>
+        <Text style={styles.rating}>
+          ⭐ {item.vote_average ? item.vote_average.toFixed(1) : 'N/A'}
+        </Text>
+      </View>
+    );
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -8,7 +36,20 @@ export function Slider() {
         <Text>Discover</Text>
       </View>
       <View style={styles.mainContainer}>
-        <Text style={styles.text}>1</Text>
+        {movies.length > 0 ? (
+          <Carousel
+            width={width * 0.8}
+            height={160}
+            data={movies}
+            renderItem={renderItem}
+            loop={true}
+            autoPlay={true}
+            autoPlayInterval={3000}
+            scrollAnimationDuration={1000}
+          />
+        ) : (
+          <Text style={styles.text}>Loading movies...</Text>
+        )}
       </View>
       <View style={styles.button}>
         <Button color="green" title="WhishList" />
@@ -38,6 +79,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderColor: 'black',
     borderWidth: 1,
+    marginVertical: 20,
   },
   button: {
     flexDirection: 'row',
@@ -47,5 +89,36 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 18,
     color: 'black',
+  },
+  carouselItem: {
+    backgroundColor: '#fff',
+    borderRadius: 8,
+    padding: 15,
+    marginHorizontal: 5,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  movieTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#333',
+    marginBottom: 8,
+  },
+  movieOverview: {
+    fontSize: 12,
+    color: '#666',
+    marginBottom: 8,
+    lineHeight: 16,
+  },
+  rating: {
+    fontSize: 14,
+    color: '#ff6b35',
+    fontWeight: '600',
   },
 });
