@@ -1,10 +1,10 @@
 import React from 'react';
 import {View} from 'react-native';
-import {Slider} from './src/screens/Slider';
+import Home from './src/screens/Home';
 function App(): React.JSX.Element {
   return (
-    <View style={{backgroundColor: '#000'}}>
-      <Slider />
+    <View style={{backgroundColor: '#000', flex: 1}}>
+      <Home />
     </View>
   );
 }
