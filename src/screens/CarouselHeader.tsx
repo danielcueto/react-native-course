@@ -1,15 +1,26 @@
-import {View, Text, TouchableOpacity, Alert} from 'react-native';
-import {styles} from './MainCarousel';
+import {View, TouchableOpacity, Alert} from 'react-native';
 import {StyleSheet} from 'react-native';
-
+import Label from '../components/Label';
+import {Button} from '../components/Button';
 
 export function CarouselHeader({text1, text2}: {text1: string; text2: string}) {
   return (
     <View style={carouselStyles.container}>
-      <Text style={carouselStyles.text}>{text1}</Text>
+      <Label size="large" family="medium">
+        {text1}
+      </Label>
 
-      <TouchableOpacity style={carouselStyles.btn} onPress={() => {Alert.alert('Could you?')}}>
-        <Text style={[styles.text, {color: '#f2c94c'}]}>{text2}</Text>
+      <TouchableOpacity
+        style={carouselStyles.btn}
+        onPress={() => {
+          Alert.alert('Could you?');
+        }}>
+        <Button
+          text={text2}
+          size="medium"
+          variant="text"
+          onPress={() => Alert.alert('Could you2?')}
+        />
       </TouchableOpacity>
     </View>
   );
