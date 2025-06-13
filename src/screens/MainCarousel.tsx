@@ -18,7 +18,7 @@ import LinearGradient from 'react-native-linear-gradient';
 
 const {width} = Dimensions.get('window');
 
-export function Slider() {
+export function MainCarousel() {
   const [movies, setMovies] = useState([]);
   const progress = useSharedValue<number>(0);
   const ref = useRef<ICarouselInstance>(null);
@@ -39,14 +39,12 @@ export function Slider() {
       <View style={styles.carouselItem}>
         <Image
           style={styles.image}
-          source={{
-            uri: `${IMAGE_BASE_URL}${item.poster_path}`,
-          }}
+          source={{uri: `${IMAGE_BASE_URL}${item.poster_path}`}}
         />
         <LinearGradient
-          colors={['transparent', 'rgba(0, 0, 0, 0.8)']}
-          style={styles.gradient}
-        />
+          colors={['transparent', '#000']}
+          style={styles.gradient}>
+        </LinearGradient>
       </View>
     );
   };
@@ -70,17 +68,19 @@ export function Slider() {
                 progress.value = absoluteProgress;
               }}
             />
-            <View style={styles.header}>
-              <Text style={styles.text}>My list</Text>
-              <Text style={styles.text}>Discover</Text>
-            </View>
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity style={styles.button1}>
-                <Text style={styles.text}>+ Wishlist</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.button2}>
-                <Text style={[styles.text, {color: '#333'}]}>Details</Text>
-              </TouchableOpacity>
+            <View style={styles.controlContainer}>
+              <View style={styles.header}>
+                <Text style={styles.text}>My list</Text>
+                <Text style={styles.text}>Discover</Text>
+              </View>
+              <View style={styles.buttonContainer}>
+                <TouchableOpacity style={styles.button1}>
+                  <Text style={styles.text}>+ Wishlist</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.button2}>
+                  <Text style={[styles.text, {color: '#333'}]}>Details</Text>
+                </TouchableOpacity>
+              </View>
             </View>
             <Pagination.Basic
               progress={progress}
@@ -99,10 +99,14 @@ export function Slider() {
   );
 }
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   carouselContainer: {
     alignItems: 'center',
     marginBottom: 20,
+  },
+  controlContainer: {
+    position: 'absolute',
+    top: width * 0.8,
   },
   header: {
     flexDirection: 'row',
@@ -169,16 +173,15 @@ const styles = StyleSheet.create({
     width: width,
     height: width * 1.07,
     borderRadius: 8,
-    marginBottom: 10,
   },
   gradient: {
     position: 'absolute',
     bottom: 0,
     left: 0,
     right: 0,
-    height: '50%',
-    borderBottomLeftRadius: 8,
-    borderBottomRightRadius: 8,
+    zIndex: 233,
+    height: '100%',
+    justifyContent: 'flex-end',
   },
   dotStyle: {
     backgroundColor: '#fff',
