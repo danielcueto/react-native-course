@@ -1,11 +1,4 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  Dimensions,
-  TouchableOpacity,
-  Image,
-} from 'react-native';
+import {StyleSheet, Text, View, Dimensions, Image} from 'react-native';
 import {getPopularMovies} from '../utils/service/TMBDService';
 import {useEffect, useRef, useState} from 'react';
 import Carousel, {
@@ -15,10 +8,13 @@ import Carousel, {
 import {IMAGE_BASE_URL} from '@env';
 import {useSharedValue} from 'react-native-reanimated';
 import LinearGradient from 'react-native-linear-gradient';
+import {Button} from '../components/Button';
+import {useTheme} from '../context/ThemeContext';
 
 const {width} = Dimensions.get('window');
 
 export function MainCarousel() {
+  const {theme} = useTheme();
   const [movies, setMovies] = useState([]);
   const progress = useSharedValue<number>(0);
   const ref = useRef<ICarouselInstance>(null);
@@ -42,9 +38,8 @@ export function MainCarousel() {
           source={{uri: `${IMAGE_BASE_URL}${item.poster_path}`}}
         />
         <LinearGradient
-          colors={['transparent', '#000']}
-          style={styles.gradient}>
-        </LinearGradient>
+          colors={['transparent', theme.background]}
+          style={styles.gradient}></LinearGradient>
       </View>
     );
   };
@@ -74,12 +69,12 @@ export function MainCarousel() {
                 <Text style={styles.text}>Discover</Text>
               </View>
               <View style={styles.buttonContainer}>
-                <TouchableOpacity style={styles.button1}>
-                  <Text style={styles.text}>+ Wishlist</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.button2}>
-                  <Text style={[styles.text, {color: '#333'}]}>Details</Text>
-                </TouchableOpacity>
+                <Button
+                  text="+ Wishlist"
+                  variant="secondary"
+                  onPress={() => {}}
+                />
+                <Button text="Details" variant="primary" onPress={() => {}} />
               </View>
             </View>
             <Pagination.Basic
