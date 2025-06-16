@@ -65,3 +65,27 @@ export const getMarvelMovies = async (): Promise<IMovie[]> => {
     return [];
   }
 };
+
+
+export const getMovieDetails = async (movieId: string) => {
+  try {
+    const url = new URL(`movie/${movieId}`, TMBD_BASE_URL);
+    url.searchParams.append('language', 'en-US');
+    const response = await fetch(url.toString(), {
+      headers: {
+        Authorization: `Bearer ${ACCESS_TOKEN}`,
+        Accept: 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data.results || [];
+  } catch (error: any) {
+    console.error('Error fetching movie details:', error.message || error);
+    return [];
+  }
+};

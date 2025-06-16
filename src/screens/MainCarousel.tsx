@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View, Dimensions, Image} from 'react-native';
+import {StyleSheet, View, Dimensions, Image} from 'react-native';
 import {getPopularMovies} from '../utils/service/TMBDService';
 import {useEffect, useRef, useState} from 'react';
 import Carousel, {
@@ -11,20 +11,27 @@ import LinearGradient from 'react-native-linear-gradient';
 import {Button} from '../components/Button';
 import {useTheme} from '../context/ThemeContext';
 import Label from '../components/Label';
+import {MyModal} from '../components/MyModal';
+import {MovieDetailModal} from '../components/MovieDetailModal';
 
 const {width} = Dimensions.get('window');
 
 export function MainCarousel() {
   const {theme} = useTheme();
   const [movies, setMovies] = useState([]);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
+
   const progress = useSharedValue<number>(0);
   const ref = useRef<ICarouselInstance>(null);
+
   const onPressPagination = (index: number) => {
     ref.current?.scrollTo({
       count: index - progress.value,
       animated: true,
     });
   };
+
   useEffect(() => {
     getPopularMovies().then(moviesData => {
       setMovies(moviesData.slice(0, 5));
@@ -40,13 +47,27 @@ export function MainCarousel() {
         />
         <LinearGradient
           colors={['transparent', theme.background]}
-          style={styles.gradient}></LinearGradient>
+          style={styles.gradient}
+        />
       </View>
     );
   };
 
   return (
     <View>
+      <MyModal visible={modalVisible} setVisible={setModalVisible}>
+        {movies.length > 0 ? (
+          <MovieDetailModal
+            title={movies[activeIndex]?.title || 'No Title'}
+            descripcion={
+              movies[activeIndex]?.overview || 'No description available'
+            }
+            imageUrl={`${IMAGE_BASE_URL}${movies[activeIndex]?.poster_path}`}
+          />
+        ) : (
+          <Label>Loading movie details...</Label>
+        )}
+      </MyModal>
       <View style={styles.carouselContainer}>
         {movies.length > 0 ? (
           <>
@@ -56,6 +77,9 @@ export function MainCarousel() {
               height={width * 1.07}
               data={movies}
               renderItem={renderItem}
+              onSnapToItem={index => {
+                setActiveIndex(index);
+              }}
               loop={true}
               autoPlay={true}
               autoPlayInterval={3000}
@@ -79,20 +103,24 @@ export function MainCarousel() {
                   variant="secondary"
                   onPress={() => {}}
                 />
-                <Button text="Details" variant="primary" onPress={() => {}} />
+                <Button
+                  text="Details"
+                  variant="primary"
+                  onPress={() => setModalVisible(true)}
+                />
               </View>
             </View>
             <Pagination.Basic
               progress={progress}
               data={movies}
-              dotStyle={styles.dotStyle}
-              activeDotStyle={{backgroundColor: '#f2c94c'}}
+              dotStyle={{...styles.dotStyle, backgroundColor: theme.muted}}
+              activeDotStyle={{backgroundColor: theme.primary}}
               containerStyle={styles.paginationContainer}
               onPress={onPressPagination}
             />
           </>
         ) : (
-          <Text style={[styles.text]}>Loading movies...</Text>
+          <Label>Loading movies...</Label>
         )}
       </View>
     </View>
@@ -122,29 +150,6 @@ export const styles = StyleSheet.create({
     marginBottom: 24,
     gap: 16,
   },
-  button1: {
-    paddingVertical: 14,
-    paddingHorizontal: 32,
-    backgroundColor: '#333',
-    borderRadius: 8,
-    width: 155.5,
-    height: 48,
-  },
-  button2: {
-    paddingVertical: 14,
-    paddingHorizontal: 32,
-    backgroundColor: '#f2c94c',
-    borderRadius: 8,
-    width: 155.5,
-    height: 48,
-  },
-  text: {
-    fontSize: 16,
-    textAlign: 'center',
-    color: '#fff',
-    fontWeight: '700',
-    fontFamily: 'Gilroy-Medium',
-  },
   carouselItem: {
     position: 'relative',
     shadowColor: '#000',
@@ -156,19 +161,6 @@ export const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
   },
-  movieTitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 8,
-  },
-  movieOverview: {
-    fontSize: 12,
-    color: '#666',
-    marginBottom: 8,
-    lineHeight: 16,
-  },
-
   image: {
     width: width,
     height: width * 1.07,
@@ -180,14 +172,14 @@ export const styles = StyleSheet.create({
     left: 0,
     right: 0,
     zIndex: 233,
-    height: '100%',
+    height: '32%',
     justifyContent: 'flex-end',
   },
   dotStyle: {
-    backgroundColor: '#fff',
     borderRadius: 6,
     width: 6,
     height: 6,
+    marginTop: 24,
   },
   paginationContainer: {
     flexDirection: 'row',

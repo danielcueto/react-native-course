@@ -25,7 +25,7 @@ export function Button({
   style,
   fullWidth = false,
 }: ButtonProps) {
-  const {theme} = useTheme();
+  const {theme, currentTheme} = useTheme();
 
   const getButtonStyle = (): ViewStyle => {
     const baseStyle: ViewStyle = {
@@ -106,6 +106,11 @@ export function Button({
     }
   };
 
+  const labelColor =
+    currentTheme === 'light' && variant !== 'text'
+      ? {...styles.buttonText, color: 'white'}
+      : styles.buttonText;
+
   return (
     <TouchableOpacity
       style={[getButtonStyle(), style]}
@@ -116,7 +121,7 @@ export function Button({
         size={getTextSize() as any}
         family="medium"
         color={getTextColor() as any}
-        style={styles.buttonText}>
+        style={labelColor}>
         {text}
       </Label>
     </TouchableOpacity>

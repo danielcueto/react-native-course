@@ -11,6 +11,8 @@ function Home() {
       <MainCarousel />
       <CarouselHeader text1="Marvel Studios" text2="See more" />
       <MarvelMoviesCarousel />
+
+      <CarouselHeader text1="Best Movies" text2="See more" />
     </ScrollView>
   );
 }

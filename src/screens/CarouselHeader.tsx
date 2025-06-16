@@ -1,4 +1,4 @@
-import {View, TouchableOpacity, Alert} from 'react-native';
+import {View, Alert} from 'react-native';
 import {StyleSheet} from 'react-native';
 import Label from '../components/Label';
 import {Button} from '../components/Button';
@@ -9,19 +9,12 @@ export function CarouselHeader({text1, text2}: {text1: string; text2: string}) {
       <Label size="large" family="medium">
         {text1}
       </Label>
-
-      <TouchableOpacity
-        style={carouselStyles.btn}
-        onPress={() => {
-          Alert.alert('Could you?');
-        }}>
-        <Button
-          text={text2}
-          size="medium"
-          variant="text"
-          onPress={() => Alert.alert('Could you2?')}
-        />
-      </TouchableOpacity>
+      <Button
+        text={text2}
+        size="medium"
+        variant="text"
+        onPress={() => Alert.alert('error: gradle is not defined')}
+      />
     </View>
   );
 }
@@ -32,16 +25,5 @@ const carouselStyles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 24,
-  },
-  text: {
-    fontSize: 20,
-    textAlign: 'center',
-    color: '#fff',
-    fontWeight: '600',
-    fontFamily: 'Gilroy-Medium',
-  },
-  btn: {
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 });
