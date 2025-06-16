@@ -10,6 +10,7 @@ import {useSharedValue} from 'react-native-reanimated';
 import LinearGradient from 'react-native-linear-gradient';
 import {Button} from '../components/Button';
 import {useTheme} from '../context/ThemeContext';
+import Label from '../components/Label';
 
 const {width} = Dimensions.get('window');
 
@@ -65,8 +66,12 @@ export function MainCarousel() {
             />
             <View style={styles.controlContainer}>
               <View style={styles.header}>
-                <Text style={styles.text}>My list</Text>
-                <Text style={styles.text}>Discover</Text>
+                <Label size="medium" family="medium">
+                  My List
+                </Label>
+                <Label size="medium" family="medium">
+                  Discover
+                </Label>
               </View>
               <View style={styles.buttonContainer}>
                 <Button
@@ -137,7 +142,7 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: 'center',
     color: '#fff',
-    fontWeight: '500',
+    fontWeight: '700',
     fontFamily: 'Gilroy-Medium',
   },
   carouselItem: {
