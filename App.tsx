@@ -1,17 +1,20 @@
 import React from 'react';
 import {View} from 'react-native';
-import Home from './src/screens/Home';
 import ThemeProvider from './src/context/ThemeContext';
 import {NavigationContainer} from '@react-navigation/native';
+import {TabNavigation} from './src/components/TabNavigation';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 function App(): React.JSX.Element {
   return (
     <ThemeProvider>
-      <NavigationContainer>
+      <SafeAreaProvider>
         <View style={{flex: 1}}>
-          <Home />
+          <NavigationContainer>
+            <TabNavigation />
+          </NavigationContainer>
         </View>
-      </NavigationContainer>
+      </SafeAreaProvider>
     </ThemeProvider>
   );
 }
