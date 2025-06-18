@@ -1,7 +1,7 @@
 import React from 'react';
 import {TouchableOpacity, StyleSheet, ViewStyle, StyleProp} from 'react-native';
 import Label from './Label';
-import {useTheme} from '../context/ThemeContext';
+import {useTheme} from '../../context/ThemeContext';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'text';
 export type ButtonSize = 'small' | 'medium' | 'large';

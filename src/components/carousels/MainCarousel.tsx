@@ -1,5 +1,5 @@
 import {StyleSheet, View, Dimensions, Image} from 'react-native';
-import {getPopularMovies} from '../utils/service/TMBDService';
+import {getPopularMovies, IMovie} from '../../utils/service/TMBDService';
 import {useEffect, useRef, useState} from 'react';
 import Carousel, {
   Pagination,
@@ -8,17 +8,17 @@ import Carousel, {
 import {IMAGE_BASE_URL} from '@env';
 import {useSharedValue} from 'react-native-reanimated';
 import LinearGradient from 'react-native-linear-gradient';
-import {Button} from '../components/Button';
-import {useTheme} from '../context/ThemeContext';
-import Label from '../components/Label';
-import {MyModal} from '../components/MyModal';
-import {MovieDetailModal} from '../components/MovieDetailModal';
+import {Button} from '../common/Button';
+import {useTheme} from '../../context/ThemeContext';
+import Label from '../common/Label';
+import {MyModal} from '../modals/MyModal';
+import {MovieDetailModal} from '../modals/MovieDetailModal';
 
 const {width} = Dimensions.get('window');
 
 export function MainCarousel() {
   const {theme} = useTheme();
-  const [movies, setMovies] = useState([]);
+  const [movies, setMovies] = useState<IMovie[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
 

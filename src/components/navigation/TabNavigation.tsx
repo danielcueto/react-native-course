@@ -1,15 +1,15 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import Home from '../screens/Home';
-import {Search} from '../screens/Search';
-import {Whishlist} from '../screens/Whishlist';
-import {Profile} from '../screens/Profile';
-import {useTheme} from '../context/ThemeContext';
+import Home from '../../screens/Home';
+import {Search} from '../../screens/Search';
+import {Whishlist} from '../../screens/Whishlist';
+import {Profile} from '../../screens/Profile';
+import {useTheme} from '../../context/ThemeContext';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
-import HomeIcon from '../../assets/icons/Home2.svg';
-import SearchIcon from '../../assets/icons/Search.svg';
-import BookmarkIcon from '../../assets/icons/Bookmark.svg';
-import ProfileIcon from '../../assets/icons/Profile.svg';
+import HomeIcon from '../../../assets/icons/Home2.svg';
+import SearchIcon from '../../../assets/icons/Search.svg';
+import BookmarkIcon from '../../../assets/icons/Bookmark.svg';
+import ProfileIcon from '../../../assets/icons/Profile.svg';
 
 const Tab = createBottomTabNavigator();
 
@@ -21,7 +21,7 @@ const icons = {
 };
 function getTabBarIcon(routeName: string) {
   const Icon = icons[routeName as keyof typeof icons];
-  return ({ 
+  return ({
     color,
     size,
     focused,

@@ -1,7 +1,7 @@
 import {View, Alert} from 'react-native';
 import {StyleSheet} from 'react-native';
-import Label from '../components/Label';
-import {Button} from '../components/Button';
+import Label from '../common/Label';
+import {Button} from '../common/Button';
 
 export function CarouselHeader({text1, text2}: {text1: string; text2: string}) {
   return (

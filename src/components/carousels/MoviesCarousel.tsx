@@ -1,4 +1,3 @@
-import React, {useEffect, useState} from 'react';
 import {
   View,
   FlatList,
@@ -7,36 +6,23 @@ import {
   ActivityIndicator,
   TouchableOpacity,
 } from 'react-native';
-import {getMarvelMovies, IMovie} from '../utils/service/TMBDService';
-import {useTheme} from '../context/ThemeContext';
+import {IMovie} from '../../utils/service/TMBDService';
+import {useTheme} from '../../context/ThemeContext';
 import {IMAGE_BASE_URL} from '@env';
-import Label from './Label';
-
+import Label from '../common/Label';
+import {useTMBProps, useTMDB} from '../../hooks/useTMDB';
 const MOVIE_WIDTH = 120;
 const MOVIE_HEIGHT = 160;
 
 const Separator = () => <View style={styles.separator} />;
 
-export const MarvelMoviesCarousel: React.FC = () => {
-  const [movies, setMovies] = useState<IMovie[]>([]);
-  const [loading, setLoading] = useState(true);
+export function MoviesCarousel({path, params}: useTMBProps) {
   const {theme} = useTheme();
 
-  useEffect(() => {
-    fetchMarvelMovies();
-  }, []);
-
-  const fetchMarvelMovies = async () => {
-    try {
-      setLoading(true);
-      const marvelMovies = await getMarvelMovies();
-      setMovies(marvelMovies);
-    } catch (error) {
-      console.error('Error fetching Marvel movies:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const {movies, loading} = useTMDB({
+    path,
+    params,
+  });
 
   const renderMovieItem = ({item}: {item: IMovie}) => (
     <TouchableOpacity style={styles.movieContainer}>
@@ -78,7 +64,7 @@ export const MarvelMoviesCarousel: React.FC = () => {
       />
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {

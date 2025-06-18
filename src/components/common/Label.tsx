@@ -1,7 +1,7 @@
 import React from 'react';
 import {Text, TextStyle, StyleProp} from 'react-native';
-import {fonts} from '../theme/fonts';
-import {useTheme} from '../context/ThemeContext';
+import {fonts} from '../../theme/fonts';
+import {useTheme} from '../../context/ThemeContext';
 
 interface LabelProps {
   children: React.ReactNode;

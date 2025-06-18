@@ -1,4 +1,4 @@
-import Label from '../components/Label';
+import Label from '../components/common/Label';
 
 export function Profile() {
   return <Label color="gray">profile</Label>;

@@ -30,7 +30,7 @@ export async function getPopularMovies() {
       },
     });
     const data = await response.json();
-    return data.results || [];
+    return data.results as IMovie[] || [];
   } catch (error) {
     console.error('Error fetching popular movies:', error);
     return [];
@@ -40,8 +40,6 @@ export async function getPopularMovies() {
 export const getMarvelMovies = async (): Promise<IMovie[]> => {
   try {
     const url = new URL('discover/movie', TMBD_BASE_URL);
-    url.searchParams.append('include_adult', 'false');
-    url.searchParams.append('include_video', 'false');
     url.searchParams.append('language', 'en-US');
     url.searchParams.append('page', '1');
     url.searchParams.append('sort_by', 'popularity.desc');
@@ -53,10 +51,6 @@ export const getMarvelMovies = async (): Promise<IMovie[]> => {
         Accept: 'application/json',
       },
     });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
 
     const data = await response.json();
     return (data.results as IMovie[]) || [];
@@ -83,7 +77,7 @@ export const getMovieDetails = async (movieId: string) => {
     }
 
     const data = await response.json();
-    return data.results || [];
+    return data.results as IMovie[] || [];
   } catch (error: any) {
     console.error('Error fetching movie details:', error.message || error);
     return [];
