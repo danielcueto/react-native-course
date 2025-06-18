@@ -1,4 +1,4 @@
-import Label from '../components/Label';
+import Label from '../components/common/Label';
 
 export function Whishlist() {
   return <Label  color="gray">Whishlist</Label>;

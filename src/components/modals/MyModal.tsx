@@ -1,6 +1,6 @@
 import {Modal, StyleSheet, View} from 'react-native';
-import {Button} from './Button';
-import {useTheme} from '../context/ThemeContext';
+import {Button} from '../common/Button';
+import {useTheme} from '../../context/ThemeContext';
 import {ReactNode} from 'react';
 
 interface MyModalProps {

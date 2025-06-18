@@ -2,7 +2,7 @@ import React from 'react';
 import {View} from 'react-native';
 import ThemeProvider from './src/context/ThemeContext';
 import {NavigationContainer} from '@react-navigation/native';
-import {TabNavigation} from './src/components/TabNavigation';
+import {TabNavigation} from './src/components/navigation/TabNavigation';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 function App(): React.JSX.Element {

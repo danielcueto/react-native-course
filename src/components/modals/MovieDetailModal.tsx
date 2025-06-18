@@ -1,5 +1,5 @@
 import {Image, View} from 'react-native';
-import Label from './Label';
+import Label from '../common/Label';
 import {StyleSheet} from 'react-native';
 
 interface MovieDetailModalProps {
