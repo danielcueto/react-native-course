@@ -11,12 +11,17 @@ import {useTheme} from '../../context/ThemeContext';
 import {IMAGE_BASE_URL} from '@env';
 import Label from '../common/Label';
 import {useTMBProps, useTMDB} from '../../hooks/useTMDB';
+import {CarouselHeader} from './HeaderCarousel';
 const MOVIE_WIDTH = 120;
 const MOVIE_HEIGHT = 160;
 
 const Separator = () => <View style={styles.separator} />;
 
-export function MoviesCarousel({path, params}: useTMBProps) {
+interface MoviesCarouselProps extends useTMBProps {
+  title: string;
+}
+
+export function MoviesCarousel({path, params, title}: MoviesCarouselProps) {
   const {theme} = useTheme();
 
   const {movies, loading} = useTMDB({
@@ -40,6 +45,9 @@ export function MoviesCarousel({path, params}: useTMBProps) {
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
+        <View>
+          <CarouselHeader text1={title} text2="See more" movies={[]} />
+        </View>
         <ActivityIndicator size="large" color={theme.accent} />
         <Label size="regular" style={styles.loadingText}>
           Cargando...
@@ -49,19 +57,24 @@ export function MoviesCarousel({path, params}: useTMBProps) {
   }
 
   return (
-    <View style={styles.container}>
-      <FlatList
-        data={movies}
-        renderItem={renderMovieItem}
-        keyExtractor={item => item.id.toString()}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.listContent}
-        ItemSeparatorComponent={Separator}
-        snapToInterval={MOVIE_WIDTH + 15}
-        decelerationRate="fast"
-        snapToAlignment="start"
-      />
+    <View>
+      <View>
+        <CarouselHeader text1={title} text2="See more" movies={movies} />
+      </View>
+      <View style={styles.container}>
+        <FlatList
+          data={movies}
+          renderItem={renderMovieItem}
+          keyExtractor={item => item.id.toString()}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.listContent}
+          ItemSeparatorComponent={Separator}
+          snapToInterval={MOVIE_WIDTH + 15}
+          decelerationRate="fast"
+          snapToAlignment="start"
+        />
+      </View>
     </View>
   );
 }

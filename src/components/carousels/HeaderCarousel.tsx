@@ -1,9 +1,19 @@
-import {View, Alert} from 'react-native';
+import {View} from 'react-native';
 import {StyleSheet} from 'react-native';
 import Label from '../common/Label';
 import {Button} from '../common/Button';
+import {useNavigation} from '@react-navigation/native';
+import {IMovie} from '../../utils/service/TMBDService';
 
-export function CarouselHeader({text1, text2}: {text1: string; text2: string}) {
+type CarouselHeaderProps = {
+  text1: string;
+  text2: string;
+  movies: IMovie[];
+};
+
+export function CarouselHeader({text1, text2, movies}: CarouselHeaderProps) {
+  const navigation = useNavigation<any>();
+
   return (
     <View style={carouselStyles.container}>
       <Label size="large" family="medium">
@@ -13,7 +23,12 @@ export function CarouselHeader({text1, text2}: {text1: string; text2: string}) {
         text={text2}
         size="medium"
         variant="text"
-        onPress={() => Alert.alert('error: gradle is not defined')}
+        onPress={() =>
+          navigation.navigate('SeeMore', {
+            title: text1,
+            movies,
+          })
+        }
       />
     </View>
   );
