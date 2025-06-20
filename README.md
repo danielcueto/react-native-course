@@ -1,97 +1,204 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
 
-# Getting Started
+# Movie Discovery App 🎬
+
+A mobile application developed in React Native that allows you to explore and discover movies using The Movie Database (TMDb) API. The application features a modern interface, dark/light mode support, and tab navigation.
+
+Project for the mobile module of Digital Academy, AssureSoft.
+
+![Logo AssureSoft Digital Academy](da.png)
+
+The design of the UI was inspired by 🔗 [this Figma design.](https://www.figma.com/community/file/1126286295256197533)
+
+
+## Technologies used 🛠️
+
+- **React Native 0.79.3**
+- **TypeScript**
+- **React Navigation v7** (Bottom Tabs)
+- **TMDb API** for movie data
+- **React Native Reanimated** for animations
+- **React Native SVG** for vector icons
+- **React Native Linear Gradient** for gradients
+- **Theme management with Context API**
+
+## Prerequisites 📋
 
 > **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
 
-## Step 1: Start Metro
+- Node.js >= 18
+- React Native CLI
+- Android Studio (for Android development)
+- Xcode (for iOS development, macOS only)
+- API Key from [The Movie Database (TMDb)](https://www.themoviedb.org/settings/api)
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+## Installation and setup 🚀
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+### 1. Clone the repository
 
-```sh
-# Using npm
-npm start
-
-# OR using Yarn
-yarn start
+```bash
+git clone https://github.com/danielcueto/react-native-course
+cd react-native-course
 ```
 
-## Step 2: Build and run your app
+### 2. Install dependencies
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
+```bash
+npm install
+```
 
-### Android
+### 3. Configure environment variables
 
-```sh
-# Using npm
+Create a `.env` file in the project root with the following variables:
+
+```env
+ACCESS_TOKEN=your_tmdb_access_token
+TMBD_BASE_URL=https://api.themoviedb.org/3/
+IMAGE_BASE_URL=https://image.tmdb.org/t/p/w500
+```
+
+To get your ACCESS_TOKEN:
+1. Visit [TMDb API](https://www.themoviedb.org/settings/api)
+2. Create an account and request an API key
+3. Use the "Read Access Token" instead of the API key
+
+### 4. iOS configuration
+
+If you're going to run on iOS, install CocoaPods dependencies:
+
+```bash
+# Install Ruby bundler (first time only)
+bundle install
+
+# Install iOS pods
+cd ios && bundle exec pod install && cd ..
+```
+
+### 5. Run the application
+
+#### Android
+```bash
+npm run android
+```
+
+#### iOS
+```bash
+npm run ios
+```
+
+#### Start Metro (in separate terminal)
+```bash
+npm start
+```
+
+## Available commands 📋
+
+- `npm start` - Starts the Metro server
+- `npm run android` - Runs the app on Android
+- `npm run ios` - Runs the app on iOS
+- `npm run clean` - Clears Metro cache
+- `npm test` - Runs tests
+- `npm run lint` - Runs ESLint linter
+
+## Project structure 📁
+
+```
+reactnative/
+├── src/                          # Main source code
+│   ├── @types/                   # TypeScript type definitions
+│   │   ├── env.d.ts             # Types for environment variables
+│   │   └── svg.d.ts             # Types for SVG files
+│   ├── components/               # Reusable components
+│   │   ├── carousels/           # Carousel components
+│   │   │   ├── HeaderCarousel.tsx
+│   │   │   ├── MainCarousel.tsx
+│   │   │   └── MoviesCarousel.tsx
+│   │   ├── common/              # Common components
+│   │   │   ├── Button.tsx
+│   │   │   └── Label.tsx
+│   │   ├── modals/              # Modal components
+│   │   │   ├── MovieDetailModal.tsx
+│   │   │   └── MyModal.tsx
+│   │   └── navigation/          # Navigation
+│   │       └── TabNavigation.tsx
+│   ├── context/                 # React contexts
+│   │   └── ThemeContext.tsx     # Theme management
+│   ├── hooks/                   # Custom hooks
+│   │   └── useTMDB.tsx         # Hook for TMDb API
+│   ├── screens/                 # Main screens
+│   │   ├── Home.tsx            # Home screen
+│   │   ├── Profile.tsx         # Profile screen
+│   │   ├── Search.tsx          # Search screen
+│   │   └── Whishlist.tsx       # Wishlist
+│   ├── theme/                   # Theme configuration
+│   │   ├── colors.ts           # Color palette
+│   │   └── fonts.ts            # Font configuration
+│   └── utils/                   # Utilities
+│       └── service/
+│           └── TMBDService.ts   # API services
+├── assets/                      # Static resources
+│   ├── fonts/                  # Custom fonts (Gilroy)
+│   └── icons/                  # SVG icons
+├── android/                     # Android configuration
+├── ios/                        # iOS configuration
+├── __tests__/                  # Unit tests
+├── App.tsx                     # Root component
+├── package.json               # Dependencies and scripts
+├── tsconfig.json              # TypeScript configuration
+└── README.md                  # This file
+```
+
+## Architecture and patterns 🏗️
+
+### State management
+- **Context API**: For theme management (dark/light mode)
+- **Custom Hooks**: For reusable logic (useTMDB)
+- **Local state**: With useState for component-specific states
+
+### Navigation
+- **React Navigation v7**: Bottom tab navigation
+- **Main screens**: Home, Search, Wishlist, Profile
+
+### Data handling
+- **TMDb API**: Integration with The Movie Database
+- **Fetch API**: For HTTP requests
+- **TypeScript interfaces**: For strict data typing
+
+### Themes
+- **Adaptive theme**: Automatically detects system mode
+- **Custom colors**: Defined palettes for light and dark modes
+- **Custom fonts**: Gilroy typography family
+
+## Contributing 🤝
+
+1. Fork the project
+2. Create a feature branch (`git checkout -b feature/new-feature`)
+3. Commit your changes (`git commit -am 'Add new feature'`)
+4. Push to the branch (`git push origin feature/new-feature`)
+5. Open a Pull Request
+
+## Common issues and solutions 🔧
+
+### Metro error
+```bash
+# Clear Metro cache
+npm run clean
+
+# Or manually
+npx react-native start --reset-cache
+```
+
+### Native dependencies error
+```bash
+# Android - Clean and rebuild
+cd android && ./gradlew clean && cd ..
 npm run android
 
-# OR using Yarn
-yarn android
-```
-
-### iOS
-
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
-
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
-
-```sh
-bundle install
-```
-
-Then, and every time you update your native dependencies, run:
-
-```sh
-bundle exec pod install
-```
-
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
-
-```sh
-# Using npm
+# iOS - Reinstall pods
+cd ios && bundle exec pod install && cd ..
 npm run ios
-
-# OR using Yarn
-yarn ios
 ```
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
-
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
-
-## Step 3: Modify your app
-
-Now that you have successfully run the app, let's make changes!
-
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
-
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
-
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+### Environment variables not working
+- Make sure the `.env` file is in the project root
+- Restart Metro after creating/modifying the `.env`
+- Verify that variables are declared in `env.d.ts`
