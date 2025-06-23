@@ -1,19 +1,14 @@
 import {View} from 'react-native';
-import Label from '../components/common/Label';
-import {useNavigation, useRoute} from '@react-navigation/native';
-import {Button} from '../components/common/Button';
+import {useRoute} from '@react-navigation/native';
+import {MovieComponent} from '../components/common/MovieComponent';
+import {useTheme} from '../context/ThemeContext';
 
 export function SeeMore() {
+  const {theme} = useTheme();
   const route = useRoute();
-  const navigation = useNavigation<any>();
   return (
-    <View>
-      <Label color="gray">See More Page</Label>
-      <Label color="gray">{route.params?.title}</Label>
-      <Button
-        text="Redirect"
-        onPress={() => navigation.navigate(route.params?.screen)}
-      />
+    <View style={{backgroundColor: theme.background, flex: 1}}>
+      <MovieComponent movies={route.params?.movies} />
     </View>
   );
 }
