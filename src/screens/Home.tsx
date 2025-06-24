@@ -2,11 +2,13 @@ import {ScrollView} from 'react-native';
 import {MainCarousel} from '../components/carousels/MainCarousel';
 import {useTheme} from '../context/ThemeContext';
 import {MoviesCarousel} from '../components/carousels/MoviesCarousel';
+import {BlackFriday} from '../components/common/BlackFriday';
 
 function Home() {
   const {theme} = useTheme();
   return (
-    <ScrollView style={{backgroundColor: theme.background}}>
+    <ScrollView
+      style={{backgroundColor: theme.background}}>
       <MainCarousel />
 
       <MoviesCarousel
@@ -27,8 +29,8 @@ function Home() {
           page: '1',
         }}
       />
+      <BlackFriday />
     </ScrollView>
   );
 }
-
 export default Home;

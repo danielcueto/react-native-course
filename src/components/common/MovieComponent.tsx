@@ -1,10 +1,13 @@
-import {FlatList, Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {FlatList, Image, StyleSheet, Text, TouchableOpacity, View, Dimensions} from 'react-native';
 import {IMovie} from '../../utils/service/TMBDService';
 import Label from './Label';
 import {useTheme} from '../../context/ThemeContext';
 import { IMAGE_BASE_URL } from '@env';
 
-const Separator = () => <View style={styles.separator} />;
+const {width: screenWidth} = Dimensions.get('window');
+const MOVIE_WIDTH = (screenWidth - 60) / 3;
+const MOVIE_HEIGHT = MOVIE_WIDTH * 1.5;
+
 export function MovieComponent({movies}: {movies: IMovie[]}) {
   const {theme} = useTheme();
 
@@ -15,12 +18,10 @@ export function MovieComponent({movies}: {movies: IMovie[]}) {
         style={styles.moviePoster}
         resizeMode="cover"
       />
-      <View>
-        <Label family="semiBold" numberOfLines={2} style={styles.movieTitle}>
-          {item.title}
-        </Label>
-        <Text style={styles.movieDetails}>⭐ {item.vote_average} | {item.release_date}</Text>
-      </View>
+      <Label family="semiBold" style={styles.movieTitle}>
+        {item.title}
+      </Label>
+      <Text style={styles.movieDetails}>⭐ {item.vote_average?.toFixed(1)}</Text>
     </TouchableOpacity>
   );
 
@@ -30,9 +31,10 @@ export function MovieComponent({movies}: {movies: IMovie[]}) {
         data={movies}
         renderItem={renderMovieItem}
         keyExtractor={item => item.id.toString()}
+        numColumns={3}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.listContent}
-        ItemSeparatorComponent={Separator}
+        columnWrapperStyle={styles.row}
       />
     </View>
   );
@@ -40,39 +42,36 @@ export function MovieComponent({movies}: {movies: IMovie[]}) {
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: 16,
+    flex: 1,
+    paddingVertical: 20,
   },
   listContent: {
-    paddingHorizontal: 16,
+    paddingHorizontal: 20,
   },
-  separator: {
-    height: 16,
+  row: {
+    justifyContent: 'flex-start',
   },
   movieContainer: {
-    flexDirection: 'row',
+    width: MOVIE_WIDTH,
     alignItems: 'center',
     marginBottom: 16,
+    margin: 4,
   },
   moviePoster: {
-    width: 100,
-    height: 150,
+    width: MOVIE_WIDTH,
+    height: MOVIE_HEIGHT,
     borderRadius: 8,
-    marginRight: 16,
+    marginBottom: 8,
   },
   movieTitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
+    textAlign: 'center',
+    fontSize: 12,
+    paddingHorizontal: 4,
   },
   movieDetails: {
-    fontSize: 14,
+    textAlign: 'center',
+    fontSize: 11,
     color: 'gray',
-  },
-  loadingContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingVertical: 50,
-  },
-  loadingText: {
-    marginTop: 10,
+    marginTop: 4,
   },
 });
