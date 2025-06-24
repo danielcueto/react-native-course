@@ -2,8 +2,9 @@ import React from 'react';
 import {View} from 'react-native';
 import ThemeProvider from './src/context/ThemeContext';
 import {NavigationContainer} from '@react-navigation/native';
-import {TabNavigation} from './src/components/navigation/TabNavigation';
+//import {TabNavigation} from './src/components/navigation/TabNavigation';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
+import {StackNavigation} from './src/components/navigation/StackNavigation';
 
 function App(): React.JSX.Element {
   return (
@@ -11,7 +12,7 @@ function App(): React.JSX.Element {
       <SafeAreaProvider>
         <View style={{flex: 1}}>
           <NavigationContainer>
-            <TabNavigation />
+            <StackNavigation />
           </NavigationContainer>
         </View>
       </SafeAreaProvider>

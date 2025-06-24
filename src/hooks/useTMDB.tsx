@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react';
 import {IMovie} from '../utils/service/TMBDService';
 import {ACCESS_TOKEN, TMBD_BASE_URL} from '@env';
 
-export type useTMBProps = {
+export interface useTMBProps {
   path: string;
   params: {[key: string]: string};
 };
