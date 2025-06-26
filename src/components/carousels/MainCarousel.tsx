@@ -1,6 +1,5 @@
 import {StyleSheet, View, Dimensions, Image} from 'react-native';
-import {getPopularMovies, IMovie} from '../../utils/service/TMBDService';
-import {useEffect, useRef, useState} from 'react';
+import {useRef, useState} from 'react';
 import Carousel, {
   Pagination,
   ICarouselInstance,
@@ -13,12 +12,12 @@ import {useTheme} from '../../context/ThemeContext';
 import Label from '../common/Label';
 import {MyModal} from '../modals/MyModal';
 import {MovieDetailModal} from '../modals/MovieDetailModal';
+import {useTMDB} from '../../hooks/useTMDB';
 
 const {width} = Dimensions.get('window');
 
 export function MainCarousel() {
   const {theme} = useTheme();
-  const [movies, setMovies] = useState<IMovie[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -32,11 +31,14 @@ export function MainCarousel() {
     });
   };
 
-  useEffect(() => {
-    getPopularMovies().then(moviesData => {
-      setMovies(moviesData.slice(0, 5));
-    });
-  }, []);
+  const {movies, loading} = useTMDB({
+    path: 'movie/popular',
+    params: {
+      language: 'en-US',
+      page: '1',
+    },
+  });
+  const moviesToShow = movies.slice(0, 5);
 
   const renderItem = ({item}: {item: any; index: number}) => {
     return (
@@ -56,26 +58,28 @@ export function MainCarousel() {
   return (
     <View>
       <MyModal visible={modalVisible} setVisible={setModalVisible}>
-        {movies.length > 0 ? (
+        {moviesToShow.length > 0 ? (
           <MovieDetailModal
-            title={movies[activeIndex]?.title || 'No Title'}
+            title={moviesToShow[activeIndex]?.title || 'No Title'}
             descripcion={
-              movies[activeIndex]?.overview || 'No description available'
+              moviesToShow[activeIndex]?.overview || 'No description available'
             }
-            imageUrl={`${IMAGE_BASE_URL}${movies[activeIndex]?.poster_path}`}
+            imageUrl={`${IMAGE_BASE_URL}${moviesToShow[activeIndex]?.poster_path}`}
           />
         ) : (
           <Label>Loading movie details...</Label>
         )}
       </MyModal>
       <View style={styles.carouselContainer}>
-        {movies.length > 0 ? (
+        {loading ? (
+          <Label>Loading movies...</Label>
+        ) : moviesToShow.length > 0 ? (
           <>
             <Carousel
               ref={ref}
               width={width}
               height={width * 1.07}
-              data={movies}
+              data={moviesToShow}
               renderItem={renderItem}
               onSnapToItem={index => {
                 setActiveIndex(index);
@@ -112,7 +116,7 @@ export function MainCarousel() {
             </View>
             <Pagination.Basic
               progress={progress}
-              data={movies}
+              data={moviesToShow}
               dotStyle={{...styles.dotStyle, backgroundColor: theme.muted}}
               activeDotStyle={{backgroundColor: theme.primary}}
               containerStyle={styles.paginationContainer}

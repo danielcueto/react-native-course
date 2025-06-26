@@ -1,6 +1,6 @@
 import {SafeAreaView, StyleSheet} from 'react-native';
 import {useRoute} from '@react-navigation/native';
-import {MovieComponent} from '../components/common/MovieComponent';
+import {MoviesVerticalList} from '../components/common/MoviesVerticalList';
 import {useTheme} from '../context/ThemeContext';
 
 export function SeeMore() {
@@ -8,7 +8,7 @@ export function SeeMore() {
   const route = useRoute();
   return (
     <SafeAreaView style={[styles.container, {backgroundColor: theme.background}]}>
-      <MovieComponent movies={route.params?.movies || []} />
+      <MoviesVerticalList movies={(route as any).params?.movies || []} />
     </SafeAreaView>
   );
 }

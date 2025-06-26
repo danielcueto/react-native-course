@@ -3,6 +3,7 @@ import {MainCarousel} from '../components/carousels/MainCarousel';
 import {useTheme} from '../context/ThemeContext';
 import {MoviesCarousel} from '../components/carousels/MoviesCarousel';
 import {BlackFriday} from '../components/common/BlackFriday';
+import { HeaderTab } from '../components/common/HeaderTab';
 
 function Home() {
   const {theme} = useTheme();
@@ -30,6 +31,7 @@ function Home() {
         }}
       />
       <BlackFriday />
+      <HeaderTab/>
     </ScrollView>
   );
 }
