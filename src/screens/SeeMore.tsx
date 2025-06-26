@@ -8,7 +8,7 @@ export function SeeMore() {
   const route = useRoute();
   return (
     <SafeAreaView style={[styles.container, {backgroundColor: theme.background}]}>
-      <MovieComponent movies={route.params?.movies || []} />
+      <MovieComponent movies={(route as any).params?.movies || []} />
     </SafeAreaView>
   );
 }

@@ -1,76 +1,80 @@
-import {useState, useEffect} from 'react';
-import {View, StyleSheet, TextInput, ScrollView} from 'react-native';
+import {useState, useEffect, useMemo} from 'react';
+import {View, StyleSheet, TextInput} from 'react-native';
 import {useTheme} from '../context/ThemeContext';
 import Label from '../components/common/Label';
 import {MovieComponent} from '../components/common/MovieComponent';
-import {searchMovies, IMovie} from '../utils/service/TMBDService';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {useTMDB} from '../hooks/useTMDB';
 
 export function Search() {
   const {theme} = useTheme();
   const [searchQuery, setSearchQuery] = useState('');
-  const [searchResults, setSearchResults] = useState<IMovie[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [debouncedQuery, setDebouncedQuery] = useState('');
 
   useEffect(() => {
-    const performSearch = async () => {
-      if (searchQuery.trim().length > 2) {
-        setIsLoading(true);
-        try {
-          const results = await searchMovies(searchQuery);
-          setSearchResults(results);
-        } catch (error) {
-          console.error('Search error:', error);
-          setSearchResults([]);
-        } finally {
-          setIsLoading(false);
-        }
-      } else {
-        setSearchResults([]);
-      }
-    };
+    const timeout = setTimeout(() => {
+      setDebouncedQuery(searchQuery);
+    }, 500);
 
-    const timeoutId = setTimeout(performSearch, 500);
-    return () => clearTimeout(timeoutId);
+    return () => clearTimeout(timeout);
   }, [searchQuery]);
 
-  return (
-    <View style={[styles.container, {backgroundColor: theme.background}]}>
-      <View style={styles.searchContainer}>
-        <TextInput
-          style={[styles.searchInput, {
-            backgroundColor: theme.background,
-            borderColor: theme.primary,
-            color: theme.text,
-          }]}
-          placeholder="Search movies..."
-          placeholderTextColor={theme.gray}
-          value={searchQuery}
-          onChangeText={setSearchQuery}
-          autoCapitalize="none"
-          autoCorrect={false}
-        />
-      </View>
+  const params = useMemo(
+    () => ({
+      path: 'search/movie',
+      params: {
+        language: 'en-US',
+        page: '1',
+        query: debouncedQuery,
+      },
+    }),
+    [debouncedQuery],
+  );
 
-      <ScrollView style={styles.resultsContainer}>
-        {isLoading ? (
+  const {movies, loading} = useTMDB(params);
+
+  return (
+    <SafeAreaView
+      style={{flex: 1, backgroundColor: theme.background}}
+      edges={['top', 'left', 'right']}>
+      <View style={[styles.container, {backgroundColor: theme.background}]}>
+        <View style={styles.searchContainer}>
+          <TextInput
+            style={[
+              styles.searchInput,
+              {
+                backgroundColor: theme.background,
+                borderColor: theme.primary,
+                color: theme.text,
+              },
+            ]}
+            placeholder="Search movies..."
+            placeholderTextColor={theme.muted}
+            value={searchQuery}
+            onChangeText={setSearchQuery}
+            autoCapitalize="none"
+            autoCorrect={false}
+          />
+        </View>
+        {loading ? (
           <View style={styles.loadingContainer}>
             <Label color="gray">Searching...</Label>
           </View>
-        ) : searchQuery.length > 0 && searchResults.length === 0 ? (
+        ) : searchQuery.length > 0 && movies.length === 0 ? (
           <View style={styles.noResultsContainer}>
-            <Label color="gray">No se encontraron resultados</Label>
+            <Label color="gray">No results found</Label>
           </View>
-        ) : searchResults.length > 0 ? (
-          <MovieComponent movies={searchResults} />
+        ) : movies.length > 0 ? (
+          <MovieComponent movies={movies} />
         ) : (
           <View style={styles.initialContainer}>
             <Label color="gray" style={styles.initialText}>
-              Escribe el nombre de una película para buscar
+              Type the name of a movie to search for
             </Label>
           </View>
         )}
-      </ScrollView>
-    </View>
+      </View>
+    </SafeAreaView>
   );
 }
 

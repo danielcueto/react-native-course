@@ -89,7 +89,6 @@ export const searchMovies = async (query: string): Promise<IMovie[]> => {
     if (!query.trim()) {
       return [];
     }
-    
     const url = new URL('search/movie', TMBD_BASE_URL);
     url.searchParams.append('language', 'en-US');
     url.searchParams.append('page', '1');

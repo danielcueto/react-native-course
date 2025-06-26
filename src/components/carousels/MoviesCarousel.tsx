@@ -14,7 +14,7 @@ import {useTMBProps, useTMDB} from '../../hooks/useTMDB';
 import {CarouselHeader} from './HeaderCarousel';
 const MOVIE_WIDTH = 120;
 const MOVIE_HEIGHT = 160;
-
+import {useNavigation} from '@react-navigation/native';
 const Separator = () => <View style={styles.separator} />;
 
 interface MoviesCarouselProps extends useTMBProps {
@@ -23,14 +23,19 @@ interface MoviesCarouselProps extends useTMBProps {
 
 export function MoviesCarousel({path, params, title}: MoviesCarouselProps) {
   const {theme} = useTheme();
-
+  const navigation = useNavigation();
   const {movies, loading} = useTMDB({
     path,
     params,
   });
+  const handleMoviePress = (movie: IMovie) => {
+    (navigation as any).navigate('MovieDetail', {movie});
+  };
 
   const renderMovieItem = ({item}: {item: IMovie}) => (
-    <TouchableOpacity style={styles.movieContainer}>
+    <TouchableOpacity
+      onPress={() => handleMoviePress(item)}
+      style={styles.movieContainer}>
       <Image
         source={{uri: `${IMAGE_BASE_URL}${item.poster_path}`}}
         style={styles.moviePoster}
