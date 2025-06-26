@@ -1,4 +1,5 @@
 import {FlatList, Image, StyleSheet, Text, TouchableOpacity, View, Dimensions} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 import {IMovie} from '../../utils/service/TMBDService';
 import Label from './Label';
 import {useTheme} from '../../context/ThemeContext';
@@ -10,15 +11,23 @@ const MOVIE_HEIGHT = MOVIE_WIDTH * 1.5;
 
 export function MovieComponent({movies}: {movies: IMovie[]}) {
   const {theme} = useTheme();
+  const navigation = useNavigation();
+
+  const handleMoviePress = (movie: IMovie) => {
+    (navigation as any).navigate('MovieDetail', {movie});
+  };
 
   const renderMovieItem = ({item}: {item: IMovie}) => (
-    <TouchableOpacity style={styles.movieContainer}>
+    <TouchableOpacity
+      style={styles.movieContainer}
+      onPress={() => handleMoviePress(item)}
+    >
       <Image
         source={{uri: `${IMAGE_BASE_URL}${item.poster_path}`}}
         style={styles.moviePoster}
         resizeMode="cover"
       />
-      <Label family="semiBold" style={styles.movieTitle}>
+      <Label family="semiBold" numberOfLines={2} style={styles.movieTitle}>
         {item.title}
       </Label>
       <Text style={styles.movieDetails}>⭐ {item.vote_average?.toFixed(1)}</Text>
