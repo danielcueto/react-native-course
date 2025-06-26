@@ -2,7 +2,7 @@ import {useState, useEffect, useMemo} from 'react';
 import {View, StyleSheet, TextInput} from 'react-native';
 import {useTheme} from '../context/ThemeContext';
 import Label from '../components/common/Label';
-import {MovieComponent} from '../components/common/MovieComponent';
+import {MoviesVerticalList} from '../components/common/MoviesVerticalList';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useTMDB} from '../hooks/useTMDB';
 
@@ -65,7 +65,7 @@ export function Search() {
             <Label color="gray">No results found</Label>
           </View>
         ) : movies.length > 0 ? (
-          <MovieComponent movies={movies} />
+          <MoviesVerticalList movies={movies} />
         ) : (
           <View style={styles.initialContainer}>
             <Label color="gray" style={styles.initialText}>

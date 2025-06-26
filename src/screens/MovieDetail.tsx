@@ -5,6 +5,7 @@ import {useTheme} from '../context/ThemeContext';
 import Label from '../components/common/Label';
 import {IMovie} from '../utils/service/TMBDService';
 import {IMAGE_BASE_URL} from '@env';
+import {Button} from '../components/common/Button';
 
 export function MovieDetail() {
   const {theme} = useTheme();
@@ -39,7 +40,6 @@ export function MovieDetail() {
             resizeMode="cover"
           />
         </View>
-
         <View style={styles.contentContainer}>
           <Label family="semiBold" size="large" style={styles.title}>
             {movie.title}
@@ -53,6 +53,7 @@ export function MovieDetail() {
             <Label color="gray" style={styles.releaseDate}>
               {movie.release_date}
             </Label>
+            <Button text="+Wishlist" size="small" />
           </View>
 
           {movie.original_title !== movie.title && (

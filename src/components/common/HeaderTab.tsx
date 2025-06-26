@@ -1,11 +1,14 @@
 import {Dimensions, StyleSheet, View} from 'react-native';
+import {HeaderTabButton} from './HeaderTabButton';
 
 const {width} = Dimensions.get('window');
 
 export function HeaderTab() {
   return (
     <View style={styles.container}>
-      <View style={styles.innerContainer} />
+      <View style={styles.innerContainer}>
+        <HeaderTabButton selected />
+      </View>
     </View>
   );
 }
@@ -29,5 +32,6 @@ const styles = StyleSheet.create({
   innerContainer: {
     flex: 1,
     borderRadius: 90,
+    justifyContent: 'center',
   },
 });

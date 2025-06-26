@@ -2,9 +2,9 @@ import {View, StyleSheet, Image, ScrollView} from 'react-native';
 import {useTheme} from '../context/ThemeContext';
 import Label from '../components/common/Label';
 import {Button} from '../components/common/Button';
-import {MovieComponent} from '../components/common/MovieComponent';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useTMDB} from '../hooks/useTMDB';
+import {MovieListItem} from '../components/common/MovieListItem';
 
 export function Profile() {
   const {theme} = useTheme();
@@ -53,7 +53,11 @@ export function Profile() {
           {loading ? (
             <Label>Loading history...</Label>
           ) : (
-            <MovieComponent movies={watchHistory} />
+            <View style={styles.moviesWrapper}>
+              {watchHistory.map(movie => (
+                <MovieListItem key={movie.id} item={movie} />
+              ))}
+            </View>
           )}
         </View>
       </ScrollView>
@@ -108,5 +112,11 @@ const styles = StyleSheet.create({
   sectionTitle: {
     marginBottom: 16,
     paddingHorizontal: 8,
+  },
+  moviesWrapper: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'flex-start',
+    paddingHorizontal: 16,
   },
 });

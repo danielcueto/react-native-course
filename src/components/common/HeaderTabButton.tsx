@@ -1,9 +1,15 @@
 import {TouchableOpacity} from 'react-native';
 import Label from './Label';
 
-export function HeaderTabButton({selected = false}: {selected: boolean}) {
+export function HeaderTabButton({
+  text,
+  selected = false,
+}: {
+  selected: boolean;
+  text: string;
+}) {
   if (selected) {
-    return <Label>MIau miau KItyy</Label>;
+    return <Label>{text}</Label>;
   } else {
     return (
       <TouchableOpacity>
