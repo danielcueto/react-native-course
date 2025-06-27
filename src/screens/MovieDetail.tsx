@@ -17,10 +17,10 @@ export function MovieDetail() {
   if (!movie) {
     return (
       <SafeAreaView
-        style={[styles.container, {backgroundColor: theme.background}]}>
+        style={[styles.container, {backgroundColor: theme.background}]}> 
         <View style={styles.errorContainer}>
           <Label color="gray">
-            No se pudo cargar la información de la película
+            Could not load movie information
           </Label>
         </View>
       </SafeAreaView>
@@ -39,7 +39,7 @@ export function MovieDetail() {
 
   return (
     <SafeAreaView
-      style={[styles.container, {backgroundColor: theme.background}]}>
+      style={[styles.container, {backgroundColor: theme.background}]}> 
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.imageContainer}>
           <Image
@@ -75,7 +75,7 @@ export function MovieDetail() {
           {movie.original_title !== movie.title && (
             <View style={styles.section}>
               <Label family="medium" style={styles.sectionTitle}>
-                Título Original
+                Original Title
               </Label>
               <Label color="gray">{movie.original_title}</Label>
             </View>
@@ -83,31 +83,31 @@ export function MovieDetail() {
 
           <View style={styles.section}>
             <Label family="medium" style={styles.sectionTitle}>
-              Idioma Original
+              Original Language
             </Label>
             <Label color="gray">{movie.original_language?.toUpperCase()}</Label>
           </View>
 
           <View style={styles.section}>
             <Label family="medium" style={styles.sectionTitle}>
-              Popularidad
+              Popularity
             </Label>
-            <Label color="gray">{movie.popularity?.toFixed(0)} puntos</Label>
+            <Label color="gray">{movie.popularity?.toFixed(0)} points</Label>
           </View>
 
           <View style={styles.section}>
             <Label family="medium" style={styles.sectionTitle}>
-              Número de Votos
+              Vote Count
             </Label>
             <Label color="gray">
-              {movie.vote_count?.toLocaleString()} votos
+              {movie.vote_count?.toLocaleString()} votes
             </Label>
           </View>
 
           {movie.overview && (
             <View style={styles.section}>
               <Label family="medium" style={styles.sectionTitle}>
-                Sinopsis
+                Synopsis
               </Label>
               <Label style={styles.overview}>{movie.overview}</Label>
             </View>
@@ -115,12 +115,12 @@ export function MovieDetail() {
 
           <View style={styles.section}>
             <Label family="medium" style={styles.sectionTitle}>
-              Información Adicional
+              Additional Information
             </Label>
             <Label color="gray">
-              Contenido para adultos: {movie.adult ? 'Sí' : 'No'}
+              Adult content: {movie.adult ? 'Yes' : 'No'}
             </Label>
-            <Label color="gray">Tiene video: {movie.video ? 'Sí' : 'No'}</Label>
+            <Label color="gray">Has video: {movie.video ? 'Yes' : 'No'}</Label>
             <Label color="gray">ID: {movie.id}</Label>
           </View>
         </View>

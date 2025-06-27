@@ -10,7 +10,7 @@ export function HeaderTab() {
     <View style={styles.container}>
       <View style={styles.innerContainer}>
         {['All', 'Romance', 'Sports', 'Kids', 'Horror'].map((val, index) => (
-          <HeaderTabButton selected={selected === index} text={val} onPress={() => setSelected(index)}/>
+          <HeaderTabButton key={val} selected={selected === index} text={val} onPress={() => setSelected(index)}/>
         ))}
       </View>
     </View>
