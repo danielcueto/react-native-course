@@ -13,14 +13,15 @@ import Label from '../common/Label';
 import {MyModal} from '../modals/MyModal';
 import {MovieDetailModal} from '../modals/MovieDetailModal';
 import {useTMDB} from '../../hooks/useTMDB';
+import {useNavigation} from '@react-navigation/native';
 
 const {width} = Dimensions.get('window');
 
 export function MainCarousel() {
   const {theme} = useTheme();
+  const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
-
   const progress = useSharedValue<number>(0);
   const ref = useRef<ICarouselInstance>(null);
 
@@ -105,7 +106,7 @@ export function MainCarousel() {
                 <Button
                   text="+ Wishlist"
                   variant="secondary"
-                  onPress={() => {}}
+                  onPress={() => (navigation as any).navigate('Whishlist')}
                 />
                 <Button
                   text="Details"

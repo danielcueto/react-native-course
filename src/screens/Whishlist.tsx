@@ -26,10 +26,10 @@ export function Whishlist() {
       <SafeAreaView style={[styles.container, {backgroundColor: theme.background}]} edges={['top', 'left', 'right']}>
         <View style={styles.emptyContainer}>
           <Label family="medium" size="large" style={styles.emptyTitle}>
-            Tu wishlist está vacía
+            Your wishlist is empty
           </Label>
           <Label color="gray" style={styles.emptyDescription}>
-            Agrega películas a tu lista de deseos desde los detalles de cualquier película
+             Add movies to your wish list from the details of any movie
           </Label>
         </View>
       </SafeAreaView>
@@ -40,7 +40,7 @@ export function Whishlist() {
     <SafeAreaView style={[styles.container, {backgroundColor: theme.background}]} edges={['top', 'left', 'right']}>
       <View style={styles.header}>
         <Label family="semiBold" size="large">
-          Mi Wishlist ({wishlist.length})
+          My Wishlist ({wishlist.length})
         </Label>
       </View>
 

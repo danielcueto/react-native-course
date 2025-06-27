@@ -40,15 +40,15 @@ export function Profile() {
               family="medium"
               size="small"
               style={styles.subscriptionLabel}>
-              Plan: Gratis
+              Plan: Free
             </Label>
           </View>
-          <Button text="Suscribirse a Pro" style={styles.subscribeButton} />
+          <Button text="Upgrade to Pro" style={styles.subscribeButton} />
         </View>
 
         <View style={styles.settingsSection}>
           <Label family="semiBold" size="medium" style={styles.sectionTitle}>
-            Configuración
+            Settings
           </Label>
           <View style={styles.settingItem}>
             <View style={styles.settingContent}>
@@ -68,7 +68,7 @@ export function Profile() {
 
         <View style={styles.historySection}>
           <Label family="semiBold" size="medium" style={styles.sectionTitle}>
-            Historial de Visualización
+            Viewing History
           </Label>
           {loading ? (
             <Label>Loading history...</Label>
@@ -124,6 +124,7 @@ const styles = StyleSheet.create({
   },
   subscribeButton: {
     marginTop: 8,
+    width: '75%',
   },
   settingsSection: {
     marginBottom: 24,

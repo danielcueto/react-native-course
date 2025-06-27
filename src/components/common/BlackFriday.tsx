@@ -24,10 +24,11 @@ export function BlackFriday() {
 const styles = StyleSheet.create({
   container: {
     width: '100%',
+    marginVertical: 60,
     paddingHorizontal: 24,
   },
   image: {
-    width: 380,
+    width: '100%',
     height: 191,
     marginBottom: 10,
     borderRadius: 8,
