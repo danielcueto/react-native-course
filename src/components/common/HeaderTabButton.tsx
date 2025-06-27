@@ -19,7 +19,7 @@ export function HeaderTabButton({
       <Label
         size="regular"
         family="extraBold"
-        {...(selected ? {style: {color: '#42423F'}} : {})}
+        {...(selected ? {style: {color: '#42423F'}} : {style: {color: 'white'}})}
       >
         {text}
       </Label>

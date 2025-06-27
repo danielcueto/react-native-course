@@ -1,23 +1,31 @@
 import React from 'react';
-import {View} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import ThemeProvider from './src/context/ThemeContext';
+import WishlistProvider from './src/context/WishlistContext';
 import {NavigationContainer} from '@react-navigation/native';
-//import {TabNavigation} from './src/components/navigation/TabNavigation';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {StackNavigation} from './src/components/navigation/StackNavigation';
 
 function App(): React.JSX.Element {
   return (
     <ThemeProvider>
-      <SafeAreaProvider>
-        <View style={{flex: 1}}>
-          <NavigationContainer>
-            <StackNavigation />
-          </NavigationContainer>
-        </View>
-      </SafeAreaProvider>
+      <WishlistProvider>
+        <SafeAreaProvider>
+          <View style={styles.container}>
+            <NavigationContainer>
+              <StackNavigation />
+            </NavigationContainer>
+          </View>
+        </SafeAreaProvider>
+      </WishlistProvider>
     </ThemeProvider>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
 
 export default App;

@@ -1,4 +1,4 @@
-import {View, StyleSheet, Image, ScrollView} from 'react-native';
+import {View, StyleSheet, Image, ScrollView, Switch} from 'react-native';
 import {useTheme} from '../context/ThemeContext';
 import Label from '../components/common/Label';
 import {Button} from '../components/common/Button';
@@ -7,7 +7,7 @@ import {useTMDB} from '../hooks/useTMDB';
 import {MovieListItem} from '../components/common/MovieListItem';
 
 export function Profile() {
-  const {theme} = useTheme();
+  const {theme, toggleTheme, currentTheme} = useTheme();
   const {movies, loading} = useTMDB({
     path: 'movie/popular',
     params: {
@@ -44,6 +44,26 @@ export function Profile() {
             </Label>
           </View>
           <Button text="Suscribirse a Pro" style={styles.subscribeButton} />
+        </View>
+
+        <View style={styles.settingsSection}>
+          <Label family="semiBold" size="medium" style={styles.sectionTitle}>
+            Configuración
+          </Label>
+          <View style={styles.settingItem}>
+            <View style={styles.settingContent}>
+              <Label family="medium">Dark Mode</Label>
+              <Label color="gray" size="small">
+               Swich theme
+              </Label>
+            </View>
+            <Switch
+              value={currentTheme === 'dark'}
+              onValueChange={value => toggleTheme(value ? 'dark' : 'light')}
+              trackColor={{false: '#767577', true: theme.primary}}
+              thumbColor={currentTheme === 'dark' ? '#f4f3f4' : '#f4f3f4'}
+            />
+          </View>
         </View>
 
         <View style={styles.historySection}>
@@ -104,7 +124,21 @@ const styles = StyleSheet.create({
   },
   subscribeButton: {
     marginTop: 8,
-    width: '75%',
+  },
+  settingsSection: {
+    marginBottom: 24,
+    paddingHorizontal: 24,
+  },
+  settingItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#E5E5E5',
+  },
+  settingContent: {
+    flex: 1,
   },
   historySection: {
     marginBottom: 24,

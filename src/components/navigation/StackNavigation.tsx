@@ -3,7 +3,7 @@ import {TabNavigation} from './TabNavigation';
 import {SeeMore} from '../../screens/SeeMore';
 import {MovieDetail} from '../../screens/MovieDetail';
 import {useTheme} from '../../context/ThemeContext';
-import { IMovie } from '../../utils/service/TMBDService';
+import { IMovie } from '../../interfaces/Movie';
 
 export type RootStackParamList = {
   MainHome: undefined;

@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import Label from './Label';
-import {IMovie} from '../../utils/service/TMBDService';
+import {IMovie} from '../../interfaces/Movie';
 import {IMAGE_BASE_URL} from '@env';
 import {useNavigation} from '@react-navigation/native';
 
