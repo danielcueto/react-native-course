@@ -1,13 +1,17 @@
 import {Dimensions, StyleSheet, View} from 'react-native';
 import {HeaderTabButton} from './HeaderTabButton';
+import {useState} from 'react';
 
 const {width} = Dimensions.get('window');
 
 export function HeaderTab() {
+  const [selected, setSelected] = useState(0);
   return (
     <View style={styles.container}>
       <View style={styles.innerContainer}>
-        <HeaderTabButton selected />
+        {['All', 'Romance', 'Sports', 'Kids', 'Horror'].map((val, index) => (
+          <HeaderTabButton selected={selected === index} text={val} onPress={() => setSelected(index)}/>
+        ))}
       </View>
     </View>
   );
@@ -32,6 +36,9 @@ const styles = StyleSheet.create({
   innerContainer: {
     flex: 1,
     borderRadius: 90,
-    justifyContent: 'center',
+    flexDirection: 'row',
+    paddingHorizontal: 10,
+    alignItems: 'center',
+    justifyContent: 'space-around',
   },
 });
