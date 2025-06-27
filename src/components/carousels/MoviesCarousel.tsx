@@ -6,7 +6,7 @@ import {
   ActivityIndicator,
   TouchableOpacity,
 } from 'react-native';
-import {IMovie} from '../../utils/service/TMBDService';
+import {IMovie} from '../../interfaces/Movie';
 import {useTheme} from '../../context/ThemeContext';
 import {IMAGE_BASE_URL} from '@env';
 import Label from '../common/Label';

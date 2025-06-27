@@ -2,8 +2,9 @@ import React from 'react';
 import {View, StyleSheet, Image, ScrollView, SafeAreaView} from 'react-native';
 import {useRoute} from '@react-navigation/native';
 import {useTheme} from '../context/ThemeContext';
+import {useWishlist} from '../context/WishlistContext';
 import Label from '../components/common/Label';
-import {IMovie} from '../utils/service/TMBDService';
+import {IMovie} from '../interfaces/Movie';
 import {IMAGE_BASE_URL} from '@env';
 import {Button} from '../components/common/Button';
 
@@ -11,6 +12,7 @@ export function MovieDetail() {
   const {theme} = useTheme();
   const route = useRoute();
   const movie = (route.params as any)?.movie as IMovie;
+  const {addToWishlist, removeFromWishlist, isInWishlist} = useWishlist();
 
   if (!movie) {
     return (
@@ -24,6 +26,16 @@ export function MovieDetail() {
       </SafeAreaView>
     );
   }
+
+  const isMovieInWishlist = isInWishlist(movie.id);
+
+  const handleWishlistToggle = () => {
+    if (isMovieInWishlist) {
+      removeFromWishlist(movie.id);
+    } else {
+      addToWishlist(movie);
+    }
+  };
 
   return (
     <SafeAreaView
@@ -53,7 +65,11 @@ export function MovieDetail() {
             <Label color="gray" style={styles.releaseDate}>
               {movie.release_date}
             </Label>
-            <Button text="+Wishlist" size="small" />
+            <Button
+              text={isMovieInWishlist ? '-Wishlist' : '+Wishlist'}
+              size="small"
+              onPress={handleWishlistToggle}
+            />
           </View>
 
           {movie.original_title !== movie.title && (

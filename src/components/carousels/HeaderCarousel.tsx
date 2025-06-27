@@ -3,7 +3,7 @@ import {StyleSheet} from 'react-native';
 import Label from '../common/Label';
 import {Button} from '../common/Button';
 import {useNavigation} from '@react-navigation/native';
-import {IMovie} from '../../utils/service/TMBDService';
+import {IMovie} from '../../interfaces/Movie';
 
 type CarouselHeaderProps = {
   text1: string;

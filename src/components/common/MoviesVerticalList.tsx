@@ -1,5 +1,5 @@
 import {FlatList, StyleSheet, View} from 'react-native';
-import {IMovie} from '../../utils/service/TMBDService';
+import {IMovie} from '../../interfaces/Movie';
 import {useTheme} from '../../context/ThemeContext';
 import {MovieListItem} from './MovieListItem';
 

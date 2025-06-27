@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import {IMovie} from '../utils/service/TMBDService';
+import {IMovie} from '../interfaces/Movie';
 import {ACCESS_TOKEN, TMBD_BASE_URL} from '@env';
 
 export interface useTMBProps {
