@@ -1,11 +1,12 @@
 import React from 'react';
-import {View, StyleSheet, SafeAreaView, TouchableOpacity, Image} from 'react-native';
+import {View, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import {useTheme} from '../context/ThemeContext';
 import {useWishlist} from '../context/WishlistContext';
 import Label from '../components/common/Label';
 import {IMovie} from '../interfaces/Movie';
 import {IMAGE_BASE_URL} from '@env';
 import {useNavigation} from '@react-navigation/native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 export function Whishlist() {
   const {theme} = useTheme();
@@ -22,7 +23,7 @@ export function Whishlist() {
 
   if (wishlist.length === 0) {
     return (
-      <SafeAreaView style={[styles.container, {backgroundColor: theme.background}]}>
+      <SafeAreaView style={[styles.container, {backgroundColor: theme.background}]} edges={['top', 'left', 'right']}>
         <View style={styles.emptyContainer}>
           <Label family="medium" size="large" style={styles.emptyTitle}>
             Tu wishlist está vacía
@@ -36,7 +37,7 @@ export function Whishlist() {
   }
 
   return (
-    <SafeAreaView style={[styles.container, {backgroundColor: theme.background}]}>
+    <SafeAreaView style={[styles.container, {backgroundColor: theme.background}]} edges={['top', 'left', 'right']}>
       <View style={styles.header}>
         <Label family="semiBold" size="large">
           Mi Wishlist ({wishlist.length})
